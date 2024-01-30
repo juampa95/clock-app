@@ -1,0 +1,36 @@
+name: Update clock app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    if: github.repository == 'juampa95/clock-app'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write 
+  
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run build script
+        run: 
+          chmod +x ./build_remote.sh
+          ./build_remote.sh
+
+      - name: Comit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update clock app 
+          commit_user_name: Juampa Manzano [GitHub Actions]
+          commit_user_email: jpmanzano95@gmail.com
+          commit_author: juampa95 <jpmanzano95@gmail.com>
